@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View, Button } from 'react-native';
 
 export default function App() {
+  // JSX below
   return (
     <View style={styles.container}>
       <View>
         <Text>Hello World!</Text>
       </View>
       <Text>This is me...</Text>
-      <Button title='Tap me! '/>
+      <Button title='Button'/>  
     </View>
   );
 }
