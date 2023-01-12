@@ -1,27 +1,17 @@
 import { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  ScrollView,
-  FlatList,
-} from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
+
+import GoalItem from "./Components/GoalItem";
+import GoalInput from "./Components/GoalInput";
 
 export default function App() {
   // This is used to define the current state and function which is used to update that state.
   // the type of data inside usestate() is the same type we are storing in the state.
-  const [enteredGoalText, setEnteredGoalText] = useState("");
   const [courseGoals, setCourseGoals] = useState([]);
 
-  // This method gets argument from the 'onChangeText' prop and updates the state using that func.
-  function goalInputHandler(enteredText) {
-    setEnteredGoalText(enteredText);
-  }
   // Responsible for updating the couseGoals list using the previous state and appending enteredGoalText.
   // the arrow function automatically receives existing state( of component usestate is used on) by react.
-  function addGoalHandler() {
+  function addGoalHandler(enteredGoalText) {
     setCourseGoals((currentCourseGoals) => [
       ...currentCourseGoals,
       { text: enteredGoalText, id: Math.random().toString() },
@@ -31,24 +21,14 @@ export default function App() {
   // JSX below
   return (
     <View style={styles.appContainer}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Your goals."
-          onChangeText={goalInputHandler}
-        />
-        <Button title="Add Goal" onPress={addGoalHandler} />
-      </View>
+      <GoalInput onAddGoal={addGoalHandler} />
       <View style={styles.goalsContainer}>
         <FlatList
           data={courseGoals}
           renderItem={(itemData) => {
-            // returns a JSX component
-            return (
-              <View style={styles.goalItem}>
-                <Text style={styles.goalText}>{itemData.item.text}</Text>
-              </View>
-            );
+            // props written below can be accessed using the argument there.
+            // renderItem gets the data as an element by react.
+            return <GoalItem text={itemData.item.text} />;
           }}
           keyExtractor={(item, index) => {
             return item.id;
@@ -65,34 +45,9 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 50,
     paddingHorizontal: 35,
-  },
-  inputContainer: {
-    flex: 2,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 50,
-    borderBottomColor: "#cccccc",
-    borderBottomWidth: 1,
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: "#cccccc",
-    width: "70%",
-    marginRight: 8,
-    padding: 4,
+    backgroundColor: "#E1DDD5",
   },
   goalsContainer: {
     flex: 5,
-  },
-  goalItem: {
-    margin: 8,
-    padding: 6,
-    borderRadius: 8,
-    backgroundColor: "#00b300",
-    color: "white",
-  },
-  goalText: {
-    color: "white",
   },
 });
