@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, Button } from "react-native";
 
 import GoalItem from "./Components/GoalItem";
 import GoalInput from "./Components/GoalInput";
@@ -7,28 +7,59 @@ import GoalInput from "./Components/GoalInput";
 export default function App() {
   // This is used to define the current state and function which is used to update that state.
   // the type of data inside usestate() is the same type we are storing in the state.
+  const [modalIsVisible, setModalIsVisible] = useState(false);
   const [courseGoals, setCourseGoals] = useState([]);
 
-  // Responsible for updating the couseGoals list using the previous state and appending enteredGoalText.
-  // the arrow function automatically receives existing state( of component usestate is used on) by react.
+  function StartAddGoalHandler() {
+    setModalIsVisible(true);
+  }
+
+  function EndAddGoalHandler() {
+    setModalIsVisible(false);
+  }
+
+  // the error occurs when we create a new element after deleting previous ones.
   function addGoalHandler(enteredGoalText) {
     setCourseGoals((currentCourseGoals) => [
       ...currentCourseGoals,
       { text: enteredGoalText, id: Math.random().toString() },
     ]);
+    EndAddGoalHandler();
+  }
+
+  function deleteGoalHandler(id) {
+    // seems like the below code is leaving the element undefined and not actually removing it.
+    // setCourseGoals((currentCourseGoals) => {
+    //   currentCourseGoals.filter((goal) => {
+    //     goal.id !== id;
+    //   });
+    // });
   }
 
   // JSX below
   return (
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={addGoalHandler} />
+      <Button
+        title="Add new Goal"
+        color="#877E78"
+        onPress={StartAddGoalHandler}
+      />
+      {modalIsVisible && (
+        <GoalInput onAddGoal={addGoalHandler} onCancel={EndAddGoalHandler} />
+      )}
       <View style={styles.goalsContainer}>
         <FlatList
           data={courseGoals}
           renderItem={(itemData) => {
+            // renderItem gets the data as metadata element'wise by react(use .item to access the data).
             // props written below can be accessed using the argument there.
-            // renderItem gets the data as an element by react.
-            return <GoalItem text={itemData.item.text} />;
+            return (
+              <GoalItem
+                text={itemData.item.text}
+                id={itemData.item.id}
+                onDeleteItem={deleteGoalHandler}
+              />
+            );
           }}
           keyExtractor={(item, index) => {
             return item.id;

@@ -1,9 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 
 function GoalItem(props) {
   return (
+    // Logical error below, all elements getting deleted.
+    // and the elements are instead made undefined hindering adding new elements.
     <View style={styles.goalItem}>
-      <Text style={styles.goalText}>{props.text}</Text>
+      <Pressable onPress={props.onDeleteItem.bind(this, props.id)}>
+        <Text style={styles.goalText}>{props.text}</Text>
+      </Pressable>
     </View>
   );
 }
@@ -12,9 +16,9 @@ export default GoalItem;
 
 const styles = StyleSheet.create({
   goalItem: {
-    margin: 8,
+    margin: 14,
     padding: 6,
-    borderRadius: 8,
+    borderRadius: 4,
     backgroundColor: "#877E78",
     color: "white",
   },
