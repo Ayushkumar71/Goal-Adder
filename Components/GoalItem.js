@@ -4,11 +4,11 @@ function GoalItem(props) {
   return (
     // Logical error below, all elements getting deleted.
     // and the elements are instead made undefined hindering adding new elements.
-    <View style={styles.goalItem}>
-      <Pressable onPress={props.onDeleteItem.bind(this, props.id)}>
+    <Pressable onPress={props.onDeleteItem.bind(this, props.id)}>
+      <View style={styles.goalItem}>
         <Text style={styles.goalText}>{props.text}</Text>
-      </Pressable>
-    </View>
+      </View>
+    </Pressable>
   );
 }
 

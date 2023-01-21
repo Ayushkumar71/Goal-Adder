@@ -5,8 +5,9 @@ import GoalItem from "./Components/GoalItem";
 import GoalInput from "./Components/GoalInput";
 
 export default function App() {
-  // This is used to define the current state and function which is used to update that state.
   // the type of data inside usestate() is the same type we are storing in the state.
+  // the usestate function gets previous state as an argument.
+  // and the returned value from above is used to update the state.
   const [modalIsVisible, setModalIsVisible] = useState(false);
   const [courseGoals, setCourseGoals] = useState([]);
 
@@ -18,22 +19,23 @@ export default function App() {
     setModalIsVisible(false);
   }
 
-  // the error occurs when we create a new element after deleting previous ones.
   function addGoalHandler(enteredGoalText) {
     setCourseGoals((currentCourseGoals) => [
       ...currentCourseGoals,
       { text: enteredGoalText, id: Math.random().toString() },
     ]);
+
+    console.log(enteredGoalText, " at index: ", courseGoals.length);
     EndAddGoalHandler();
   }
 
+  // was using curly braces inside => w/o return
+  // which means i wasnt providing with anything to update the courseGoals -_-
+  // hence the courseGoals is undefined error -_-
   function deleteGoalHandler(id) {
-    // seems like the below code is leaving the element undefined and not actually removing it.
-    // setCourseGoals((currentCourseGoals) => {
-    //   currentCourseGoals.filter((goal) => {
-    //     goal.id !== id;
-    //   });
-    // });
+    setCourseGoals((currentCourseGoals) =>
+      currentCourseGoals.filter((goal) => goal.id !== id)
+    );
   }
 
   // JSX below
@@ -51,8 +53,8 @@ export default function App() {
         <FlatList
           data={courseGoals}
           renderItem={(itemData) => {
-            // renderItem gets the data as metadata element'wise by react(use .item to access the data).
-            // props written below can be accessed using the argument there.
+            // renderItem receives the metadata element'wise by react
+            // that why we use .item to access the our props.
             return (
               <GoalItem
                 text={itemData.item.text}
