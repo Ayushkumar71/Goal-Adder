@@ -16,13 +16,16 @@ export default GoalItem;
 
 const styles = StyleSheet.create({
   goalItem: {
-    margin: 14,
-    padding: 6,
-    borderRadius: 4,
+    marginTop: 40,
+    marginHorizontal: 40,
+    padding: 11,
+    borderRadius: 6,
     backgroundColor: "#877E78",
     color: "white",
   },
   goalText: {
     color: "white",
+    fontsize: 45,
+    fontWeight: "bold",
   },
 });

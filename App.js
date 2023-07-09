@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, View, FlatList, Button } from "react-native";
-
+import { SafeAreaView } from "react-native";
 import GoalItem from "./Components/GoalItem";
 import GoalInput from "./Components/GoalInput";
 
@@ -40,12 +40,15 @@ export default function App() {
 
   // JSX below
   return (
-    <View style={styles.appContainer}>
-      <Button
-        title="Add new Goal"
-        color="#877E78"
-        onPress={StartAddGoalHandler}
-      />
+    <SafeAreaView style={styles.rootContainer}>
+      <View style={styles.buttonContainer}>
+        <Button
+          style={styles.Button}
+          color={"white"}
+          title="Add Goal"
+          onPress={StartAddGoalHandler}
+        />
+      </View>
       {modalIsVisible && (
         <GoalInput onAddGoal={addGoalHandler} onCancel={EndAddGoalHandler} />
       )}
@@ -68,19 +71,30 @@ export default function App() {
           }}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 // Stylesheet objects written using properties similar to that of CSS.
 const styles = StyleSheet.create({
-  appContainer: {
+  rootContainer: {
     flex: 1,
-    paddingTop: 50,
-    paddingHorizontal: 35,
     backgroundColor: "#E1DDD5",
   },
   goalsContainer: {
-    flex: 5,
+    flex: 1,
+  },
+  buttonContainer: {
+    marginTop: 100,
+    marginHorizontal: 40,
+    paddingVertical: 4,
+    backgroundColor: "#49475B",
+    borderRadius: 10,
+  },
+  Button: {
+    flex: 1,
+    borderColor: "#000000C1",
+    borderRadius: 10,
+    borerwidth: 1,
   },
 });
